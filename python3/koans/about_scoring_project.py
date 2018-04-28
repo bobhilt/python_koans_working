@@ -33,8 +33,37 @@ from runner.koan import *
 # Your goal is to write the score method.
 
 def score(dice):
-    # You need to write this method
-    pass
+# * A set of three ones is 1000 points
+#
+# * A set of three numbers (other than ones) is worth 100 times the
+#   number. (e.g. three fives is 500 points).
+#
+# * A one (that is not part of a set of three) is worth 100 points.
+#
+# * A five (that is not part of a set of three) is worth 50 points.
+#
+    score = 0
+    counts = dict()
+    if dice == []: return 0
+    
+    for i in range(1,7):
+        counts[i] = (dice.count(i))
+        if i == 1:
+            if counts[i] >= 3:
+                score += 1000
+                counts[i] -= 3
+            score += 100 * counts[i]
+            
+        if counts[i] >= 3:
+            score += 100 * i
+            counts[i] -= 3
+            
+        if i == 5:
+            score += 50 * counts[i]
+            
+    return score
+    
+    
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
